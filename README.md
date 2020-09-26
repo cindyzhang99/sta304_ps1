@@ -1,1 +1,3 @@
-# sta304_ps1
+# About
+
+Website for submitting STA304 problem sets.
