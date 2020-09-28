@@ -1,22 +1,41 @@
 ---
-title: "Problem Set 1"
+title: "Consistent Marriage License Trends Disrupted By COVID Outbreak"
 author: "Xinyi Zhang"
-date: 2015-07-23T21:13:14-05:00
+date: 2020-09-27T11:58:59-05:00
 bibliography: "references.bib"
 categories: ["R"]
 tags: ["R Markdown", "plot", "regression"]
 ---
+Authored by Xinyi Zhang
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(collapse = TRUE)
+knitr::include_graphics("dataset_plot.png")
 ```
 
 # Abstract
-My abstract. 
+From a cultural, social, and even legal viewpoint, getting married is widely considered one of the most significant events in a person's life. In this web post, we identify the seasonal and annual trends in the number of marriage licenses that are issued by the Toronto City Clerk's Office as published in the "Marriage Licence Statistics" dataset on Toronto's Open Data Portal. Most notably, thanks to public health policies and public adherence to those policies, the number of marriage licenses issued in the past few months are noticeably lower than usual. Our findings from exploring this dataset have provided a basic method of evaluating the effectiveness of social distancing policies and big picture-wise have pinpointed the cyclical trends of the number of marriage licenses being issued for curious couples and interested sociologists.
+
 
 # Introduction
-We use @citetidyverse.
+First paragraph: General. Motivational. Majors specific finding. 
 
+Second paragraph: More about what you did and found.
+
+Third paragraph: Outline of the paper. Future work. Weaknesses.
+
+
+# Data Description 
+The "Marriage Licence Statistics" dataset contains 453 observations that document the number of marriage licenses issued per civic center per month in the city of Toronto. The dataset has only 4 features: 
+
+* _id: an unique observation identifier
+* CIVIC_CENTRE: a two letter code for one of four civic centers in Toronto ("TO" being Toronto City Hall, "NY" being North York Civic Center, "ET" being Etobicoke Civic Center, and "SC" being Scarborough Civic Center)
+* MARRIAGE_LICENSES: a count of how many marriage licenses were issued in the given time period
+* TIME_PERIOD: the year and month the observation was made
+
+![Figure 1: Data.](dataset_plot.png)
+
+# Data Analysis and Discussion
 You can embed an R code chunk like this:
 
 ```{r cars}
@@ -38,5 +57,9 @@ pie(
   init.angle = -50, border = NA
 )
 ```
+(beyond the scope of the pandemic)
+
+# Conclusions and Next Steps
+
 
 # References
