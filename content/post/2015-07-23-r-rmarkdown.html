@@ -36,6 +36,9 @@ tags: ["R Markdown", "plot", "regression"]
 Figure 1: A plot of the number of marriage licenses issued per month per civic center over the past nine years.
 </p>
 </div>
+</div>
+<div id="data-discussion" class="section level1">
+<h1>Data Discussion</h1>
 <p>Although just an initial foray into the dataset, several patterns in Figure <a href="#fig:overall">1</a> immediately stand out. Perhaps most obvious is the cyclical nature of the counts of marriage licenses with numbers of issued licenses peaking for each civic center in the summer months and bottoming out in the winter months. The result of this seasonal behavior are what looks like consistent waves of counts, reaching their peak every July or August and reach their trough every December or January. Another interesting feature of the plot is that each civic center follows this cyclical pattern closely. Although Toronto City Hall appears to be the most popular issuer of marriage licenses with counts often double those of the other civic centers, all four centers exhibit the described wave-like pattern.</p>
 <p>Lastly, there are clearly disruptions to the established patterns in the past few months with many fewer licenses being issued than expected during what should be a summer peak. In Figure <a href="#fig:recent">2</a>, I’ve graphed data starting from only 2018 to highlight the anomalies in recent months.</p>
 <div class="figure"><span id="fig:recent"></span>
@@ -44,26 +47,32 @@ Figure 1: A plot of the number of marriage licenses issued per month per civic c
 Figure 2: A plot of the number of marriage licenses issued per month per civic center since 2018.
 </p>
 </div>
-<p>In what typically would have been rising counts of marriage licenses issued, instead counts fell in March 2020 and continued falling in April 2020, where an all-time low (for this dataset) number of marriage licenses were issued: only 47. In subsequent months, the number of licenses slowly crept back up reaching approximately 1400 marriage licenses issued per month in July and August compared to typical peaks in the previous nine years for July and August of around 2000+ marriage licenses issued per month. Numerically, 30% fewer licenses were issued this year in July and August compared to the previous nine years.</p>
-<p>From the lack of data from some of the civic centers over the past few months, presumably they were closed and thus issued 0 marriage licenses. This further disrupted previously observed civic center trends with counts of licenses issued by North York Civic Center and Etobicoke Civic Center higher than they have ever been (in the past 9 years) because they were the only two locations open.</p>
+<p>In what typically would have been rising counts of marriage licenses issued, instead counts fell in March 2020 and continued falling in April 2020, where an all-time low (for this dataset) was hit: only 47 marriage licenses were issued that month. In subsequent months, the number of licenses rose (the rate at which will be discussed below). From the lack of data from some of the civic centers over the past few months, presumably they were closed and thus issued 0 marriage licenses. This further disrupted previously observed civic center trends with counts of licenses issued by North York Civic Center and Etobicoke Civic Center higher than they have ever been in the past 9 years because they were the only two locations open.</p>
 </div>
-<div id="data-analysis-and-discussion" class="section level1">
-<h1>Data Analysis and Discussion</h1>
-In Figure <a href="#fig:recent">2</a>,
+<div id="additional-findings" class="section level1">
+<h1>Additional Findings</h1>
+<p>In Figure <a href="#fig:agg">3</a>, I plotted the aggregated counts of marriage licenses issued, that is, the total number of licenses issued in the city of Toronto per month, losing fine-grained location information. In addition to simplifying the features of the plot, this draws attention to the sharp drop in marriage licenses issued in the past few months compared to the previous years which wasn’t as apparent in previous Figure <a href="#fig:overall">1</a> or Figure <a href="#fig:recent">2</a> because of the separation of counts into different locations. This also draws attention to the recovery of counts in July and August of this year (which also was not as apparent in Figure <a href="#fig:overall">1</a> or Figure <a href="#fig:recent">2</a> for similar reasons).</p>
 <div class="figure"><span id="fig:agg"></span>
-<img src="/post/2015-07-23-r-rmarkdown_files/figure-html/agg-1.png" alt="A plot of the number of marriage licenses issued aggregated per month over the past nine years." width="1008" />
+<img src="/post/2015-07-23-r-rmarkdown_files/figure-html/agg-1.png" alt="A plot of the number of marriage licenses issued aggregated per month over the past nine years." width="768" />
 <p class="caption">
 Figure 3: A plot of the number of marriage licenses issued aggregated per month over the past nine years.
 </p>
 </div>
-<p><img src="/post/2015-07-23-r-rmarkdown_files/figure-html/unnamed-chunk-1-1.png" width="672" />
-<img src="/post/2015-07-23-r-rmarkdown_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>In Figure <a href="#fig:month"><strong>??</strong></a>, I plotted the average number of marriage licenses issued per month for the 9 years prior to 2020. reaching approximately 1400 marriage licenses issued per month in July and August. Compared to typical peaks in the previous nine years for July and August of around 2000+ marriage licenses issued per month, 30% fewer licenses were issued this year in July and August compared to the previous nine years. Although this is a significant decrease, the relative change in April (47 marriage licenses) and May (123) this year compared to previous years of</p>
+<p><img src="/post/2015-07-23-r-rmarkdown_files/figure-html/month-1.png" width="672" />
+<img src="/post/2015-07-23-r-rmarkdown_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
 </div>
 <div id="weaknesses" class="section level1">
 <h1>Weaknesses</h1>
+<p>The data available is fairly straightforward. No strong statistical methods were applied. Further</p>
 </div>
 <div id="next-steps" class="section level1">
 <h1>Next Steps</h1>
+<p>This analysis of marriage license counts as a function of time can be further extended into the future as vaccines</p>
+</div>
+<div id="appendix" class="section level1">
+<h1>Appendix</h1>
+<p>The code used to produce this post can be found at <a href="https://github.com/cindyzhang99/sta304_ps1/blob/master/content/post/2015-07-23-r-rmarkdown.Rmd" class="uri">https://github.com/cindyzhang99/sta304_ps1/blob/master/content/post/2015-07-23-r-rmarkdown.Rmd</a>.</p>
 </div>
 <div id="references" class="section level1">
 <h1>References</h1>
