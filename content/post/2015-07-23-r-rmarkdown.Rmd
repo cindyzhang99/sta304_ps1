@@ -10,7 +10,6 @@ Authored by Xinyi Zhang
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(collapse = TRUE)
-knitr::include_graphics("dataset_plot.png")
 ```
 
 # Abstract
@@ -33,33 +32,96 @@ The "Marriage Licence Statistics" dataset contains 453 observations that documen
 * MARRIAGE_LICENSES: a count of how many marriage licenses were issued in the given time period
 * TIME_PERIOD: the year and month the observation was made
 
-![Figure 1: Data.](dataset_plot.png)
+In Figure \@ref(fig:overall), I plotted the full dataset to get a sense of what we are working with. (The code used to generate the figure can be found in the appendix.) In addition to plotting counts of marriage licenses issued against the month and year, I included the information about the locations where licenses were issued by using different colors for each civic center (namely red for "ET", green for "NY", blue for "SC", and purple for "TO").
+
+
+```{r overall, fig.width=10.5, fig.height=3, fig.cap='A plot of the number of marriage licenses issued per month per civic center over the past nine years.', echo=FALSE, message=FALSE}
+library(tidyverse)
+library(opendatatoronto)
+
+marriage_license_packages <- opendatatoronto::search_packages("Marriage Licence Statistics")
+
+marriage_license_resources <- marriage_license_packages %>% 
+  opendatatoronto::list_package_resources()
+
+marriage_license_statistics <- marriage_license_resources %>%
+  opendatatoronto::get_resource()
+
+ggplot(data=marriage_license_statistics) +
+  geom_point(mapping = aes(x=TIME_PERIOD, y=MARRIAGE_LICENSES, color=CIVIC_CENTRE)) +
+  theme(axis.text.x = element_text(angle = 90, vjust=0.5, hjust=1)) +
+  xlab("Time Period") +
+  ylab("Marriage License Counts") + 
+  labs(color="Civic Center Code")
+```
+
+
+Although just an initial foray into the dataset, several patterns in Figure \@ref(fig:overall) immediately stand out. Perhaps most obvious is the cyclical nature of the counts of marriage licenses with numbers of issued licenses peaking for each civic center in the summer months and bottoming out in the winter months. The result of this seasonal behavior are what looks like consistent waves of counts, reaching their peak every July or August and reach their trough every December or January. Another interesting feature of the plot is that each civic center follows this cyclical pattern closely. Although Toronto City Hall appears to be the most popular issuer of marriage licenses with counts often double those of the other civic centers, all four centers exhibit the described wave-like pattern. 
+
+Lastly, there are clearly disruptions to the established patterns in the past few months with many fewer licenses being issued than expected during what should be a summer peak. In Figure \@ref(fig:recent), I've graphed data starting from only 2018 to highlight the anomalies in recent months. 
+
+```{r recent, fig.width=8, fig.height=4, fig.cap='A plot of the number of marriage licenses issued per month per civic center since 2018.', echo=FALSE}
+select_recent <- filter(marriage_license_statistics, TIME_PERIOD > "2017-12")
+
+ggplot(data=select_recent) +
+  geom_point(mapping = aes(x=TIME_PERIOD, y=MARRIAGE_LICENSES, color=CIVIC_CENTRE)) +
+  theme(axis.text.x = element_text(angle = 90, vjust=0.5, hjust=1)) + 
+  xlab("Time Period") +
+  ylab("Marriage License Counts") + 
+  labs(color="Civic Center Code")
+```
+
+In what typically would have been rising counts of marriage licenses issued, instead counts fell in March 2020 and continued falling in April 2020, where an all-time low (for this dataset) number of marriage licenses were issued: only 47. In subsequent months, the number of licenses slowly crept back up reaching approximately 1400 marriage licenses issued per month in July and August compared to typical peaks in the previous nine years for July and August of around 2000+ marriage licenses issued per month. Numerically, 30% fewer licenses were issued this year in July and August compared to the previous nine years. 
+
+From the lack of data from some of the civic centers over the past few months, presumably they were closed and thus issued 0 marriage licenses. This further disrupted previously observed civic center trends with counts of licenses issued by North York Civic Center and Etobicoke Civic Center higher than they have ever been (in the past 9 years) because they were the only two locations open. 
 
 # Data Analysis and Discussion
-You can embed an R code chunk like this:
+In Figure \@ref(fig:recent),
+```{r agg, fig.width=10.5, fig.height=3, fig.cap='A plot of the number of marriage licenses issued aggregated per month over the past nine years.', echo=FALSE}
+agg_marriage_license = aggregate(x=marriage_license_statistics$MARRIAGE_LICENSES, 
+                                 by=list(marriage_license_statistics$TIME_PERIOD), 
+                                 FUN=sum)
 
-```{r cars}
-summary(cars)
-fit <- lm(dist ~ speed, data = cars)
-fit
+agg_marriage_license = rename(agg_marriage_license, TIME_PERIOD=Group.1, TOTAL_MARRIAGE_LICENSES=x)
+
+ggplot(data=agg_marriage_license, aes(x=TIME_PERIOD, y=TOTAL_MARRIAGE_LICENSES, group = 1)) +
+  geom_line() +
+  theme(axis.text.x = element_text(angle = 90, vjust=0.5, hjust=1))+ 
+  xlab("Time Period") +
+  ylab("Aggregated Marriage License Counts") 
 ```
 
-# Including Plots
+```{r, echo=FALSE}
+agg_marriage_license$month <- substr(agg_marriage_license$TIME_PERIOD, 6, 7)
+agg_marriage_license$year <- substr(agg_marriage_license$TIME_PERIOD, 0, 4)
 
-You can also embed plots. See Figure \@ref(fig:pie) for example:
+agg_marriage_license_by_month = aggregate(x=agg_marriage_license$TOTAL_MARRIAGE_LICENSES, 
+                                 by=list(agg_marriage_license$month), 
+                                 FUN=mean)
 
-```{r pie, fig.cap='A fancy pie chart.', tidy=FALSE}
-par(mar = c(0, 1, 0, 1))
-pie(
-  c(280, 60, 20),
-  c('Sky', 'Sunny side of pyramid', 'Shady side of pyramid'),
-  col = c('#0292D8', '#F7EA39', '#C4B632'),
-  init.angle = -50, border = NA
-)
+agg_marriage_license_by_month = rename(agg_marriage_license_by_month, month=Group.1, AVG_MARRIAGE_LICENSES=x)
+
+ggplot(data=agg_marriage_license_by_month, aes(x=month, y=AVG_MARRIAGE_LICENSES, group = 1)) +
+  geom_line()
 ```
-(beyond the scope of the pandemic)
+```{r, echo=FALSE}
+agg_marriage_license_by_year = aggregate(x=agg_marriage_license$TOTAL_MARRIAGE_LICENSES, 
+                                          by=list(agg_marriage_license$year), 
+                                          FUN=mean)
 
-# Conclusions and Next Steps
+agg_marriage_license_by_year = rename(agg_marriage_license_by_year, year=Group.1, AVG_MARRIAGE_LICENSES=x)
+
+ggplot(data=agg_marriage_license_by_year, aes(x=year, y=AVG_MARRIAGE_LICENSES, group = 1)) +
+  geom_line()
+```
+
+# Weaknesses
+
+
+# Next Steps
 
 
 # References
+* Wickham et al., (2019). Welcome to the tidyverse. Journal of Open Source Software, 4(43), 1686, https://doi.org/10.21105/joss.01686
+  
+* Sharla Gelfand (2020). opendatatoronto: Access the City of Toronto Open Data Portal. R package version 0.1.3. https://CRAN.R-project.org/package=opendatatoronto

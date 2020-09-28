@@ -35,6 +35,12 @@ ggplot(data=marriage_license_statistics) +
   geom_point(mapping = aes(x=TIME_PERIOD, y=MARRIAGE_LICENSES, color=CIVIC_CENTRE)) +
   theme(axis.text.x = element_text(angle = 90, vjust=0.5, hjust=1))
 
+select_recent <- filter(marriage_license_statistics, TIME_PERIOD > "2017-12")
+
+ggplot(data=select_recent) +
+  geom_point(mapping = aes(x=TIME_PERIOD, y=MARRIAGE_LICENSES, color=CIVIC_CENTRE)) +
+  theme(axis.text.x = element_text(angle = 90, vjust=0.5, hjust=1))
+
 agg_marriage_license = aggregate(x=marriage_license_statistics$MARRIAGE_LICENSES, 
                                  by=list(marriage_license_statistics$TIME_PERIOD), 
                                  FUN=sum)
