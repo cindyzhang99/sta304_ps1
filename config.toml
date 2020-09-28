@@ -39,4 +39,4 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
     width = 50
     height = 50
     alt = "Logo"
-
+    custom_css = ["css/main.css", "css/fonts.css"]
