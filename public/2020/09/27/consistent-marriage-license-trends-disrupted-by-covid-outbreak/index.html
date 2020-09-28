@@ -57,7 +57,7 @@
 
   <article class="article">
     
-    <span class="article-duration">5 min read</span>
+    <span class="article-duration">6 min read</span>
     
 
     <h1 class="article-title">Consistent Marriage License Trends Disrupted By COVID Outbreak</h1>
@@ -73,7 +73,7 @@
 <p>Authored by Xinyi Zhang</p>
 <div id="abstract" class="section level1">
 <h1>Abstract</h1>
-<p>From a cultural, social, and even legal viewpoint, getting married is widely considered one of the most significant events in a person’s life. In this web post, we identify the seasonal and annual trends in the number of marriage licenses that are issued by the Toronto City Clerk’s Office as published in the “Marriage Licence Statistics” dataset on Toronto’s Open Data Portal. Most notably, thanks to public health policies and public adherence to those policies, the number of marriage licenses issued in the past few months are noticeably lower than usual. Our findings from exploring this dataset have provided a basic method of evaluating the effectiveness of social distancing policies and big picture-wise have pinpointed the cyclical trends of the number of marriage licenses being issued for curious couples and interested sociologists.</p>
+<p>From a cultural, social, and even legal viewpoint, getting married is widely considered one of the most significant events in a person’s life. In this analysis, we identify the seasonal and annual trends in the number of marriage licenses that are issued by the City Clerk’s Office of Toronto as published in the “Marriage Licence Statistics” dataset on Toronto’s Open Data Portal. Most notably, thanks to public health policies and (initial) public adherence to those policies, the number of marriage licenses issued in the past few months are significantly lower than usual. Our findings from exploring this dataset have provided a basic method for evaluating the effectiveness of social distancing policies and big picture-wise have pinpointed cyclical trends in the issuance of marriage licenses that may be of interest to sociologists and curious couples.</p>
 </div>
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
@@ -83,16 +83,16 @@
 </div>
 <div id="data-description" class="section level1">
 <h1>Data Description</h1>
-<p>The “Marriage Licence Statistics” dataset contains 453 observations that document the number of marriage licenses issued per civic center per month in the city of Toronto. The dataset has only 4 features:</p>
+<p>The “Marriage Licence Statistics” dataset contains 453 observations that document the number of marriage licenses issued per civic center per month in the city of Toronto. Starting in January of 2011, the dataset spans a period of almost ten years and was last updated on September 1st of this year with data for the month of August. The dataset has only four features:</p>
 <ul>
 <li>_id: an unique observation identifier</li>
 <li>CIVIC_CENTRE: a two letter code for one of four civic centers in Toronto (“TO” being Toronto City Hall, “NY” being North York Civic Center, “ET” being Etobicoke Civic Center, and “SC” being Scarborough Civic Center)</li>
-<li>MARRIAGE_LICENSES: a count of how many marriage licenses were issued in the given time period</li>
+<li>MARRIAGE_LICENSES: a count of how many marriage licenses were issued in the given month</li>
 <li>TIME_PERIOD: the year and month the observation was made</li>
 </ul>
-<p>In Figure <a href="#fig:overall">1</a>, I plotted the full dataset to get a sense of what we are working with. (The code used to generate the figure can be found in the appendix.) In addition to plotting counts of marriage licenses issued against the month and year, I included the information about the locations where licenses were issued by using different colors for each civic center (namely red for “ET”, green for “NY”, blue for “SC”, and purple for “TO”).</p>
+<p>In Figure <a href="#fig:overall">1</a>, I plotted the full dataset to get a sense of what we are working with. (The code used to generate this and subsequent figures can be found in the <a href="#appendix">Appendix</a>.) I included the information about the locations where licenses were issued by using different colors for each civic center (namely red for “ET”, green for “NY”, blue for “SC”, and purple for “TO”).</p>
 <div class="figure"><span id="fig:overall"></span>
-<img src="/post/2015-07-23-r-rmarkdown_files/figure-html/overall-1.png" alt="A plot of the number of marriage licenses issued per month per civic center over the past nine years." width="1008" />
+<img src="/post/2015-07-23-r-rmarkdown_files/figure-html/overall-1.png" alt="A plot of the number of marriage licenses issued per month per civic center over the past nine years." width="768" />
 <p class="caption">
 Figure 1: A plot of the number of marriage licenses issued per month per civic center over the past nine years.
 </p>
@@ -100,28 +100,146 @@ Figure 1: A plot of the number of marriage licenses issued per month per civic c
 </div>
 <div id="data-discussion" class="section level1">
 <h1>Data Discussion</h1>
-<p>Although just an initial foray into the dataset, several patterns in Figure <a href="#fig:overall">1</a> immediately stand out. Perhaps most obvious is the cyclical nature of the counts of marriage licenses with numbers of issued licenses peaking for each civic center in the summer months and bottoming out in the winter months. The result of this seasonal behavior are what looks like consistent waves of counts, reaching their peak every July or August and reach their trough every December or January. Another interesting feature of the plot is that each civic center follows this cyclical pattern closely. Although Toronto City Hall appears to be the most popular issuer of marriage licenses with counts often double those of the other civic centers, all four centers exhibit the described wave-like pattern.</p>
-<p>Lastly, there are clearly disruptions to the established patterns in the past few months with many fewer licenses being issued than expected during what should be a summer peak. In Figure <a href="#fig:recent">2</a>, I’ve graphed data starting from only 2018 to highlight the anomalies in recent months.</p>
+<p>Although Figure <a href="#fig:overall">1</a> is just an initial foray into the dataset, several patterns immediately stand out. Perhaps most obvious is the cyclical nature of the counts of marriage licenses with the number for each civic center peaking in the summer months and bottoming out in the winter months. The result of this seasonal behavior is what looks like consistent waves of counts, reaching their peak every July or August and reaching their trough every November through February. Another interesting feature of the plot is that each civic center follows this pattern closely. Although Toronto City Hall appears to be the most popular issuer of marriage licenses with counts often double those of the other civic centers, all four centers exhibit the described wave-like pattern.</p>
+<p>Lastly, there are clearly disruptions in the past few months to the established patterns with many fewer licenses being issued than expected. In Figure <a href="#fig:recent">2</a>, I’ve graphed only recent data starting from 2018 to provide a closer look at the anomalies of recent months while having access to two years of data to serve as a frame of reference for typical marriage license counts.</p>
 <div class="figure"><span id="fig:recent"></span>
 <img src="/post/2015-07-23-r-rmarkdown_files/figure-html/recent-1.png" alt="A plot of the number of marriage licenses issued per month per civic center since 2018." width="768" />
 <p class="caption">
 Figure 2: A plot of the number of marriage licenses issued per month per civic center since 2018.
 </p>
 </div>
-<p>In what typically would have been rising counts of marriage licenses issued, instead counts fell in March 2020 and continued falling in April 2020, where an all-time low (for this dataset) was hit: only 47 marriage licenses were issued that month. In subsequent months, the number of licenses rose (the rate at which will be discussed below). From the lack of data from some of the civic centers over the past few months, presumably they were closed and thus issued 0 marriage licenses. This further disrupted previously observed civic center trends with counts of licenses issued by North York Civic Center and Etobicoke Civic Center higher than they have ever been in the past 9 years because they were the only two locations open.</p>
+<p>In what typically would have been rising counts of marriage licenses issued, instead counts fell in March 2020 and continued falling in April 2020, where an all-time low (for this dataset) was hit: only 47 marriage licenses were issued that month. In subsequent months, the number of licenses rose (the rate at which will be discussed below). From the lack of data from some of the civic centers over the past few months, presumably they were closed and thus issued zero marriage licenses. This further disrupted previously observed civic center trends with counts of licenses issued by North York Civic Center and Etobicoke Civic Center higher than they have ever been recorded in the dataset because they were the only two locations open.</p>
 </div>
-<div id="additional-findings" class="section level1">
-<h1>Additional Findings</h1>
-<p>In Figure <a href="#fig:agg">3</a>, I plotted the aggregated counts of marriage licenses issued, that is, the total number of licenses issued in the city of Toronto per month, losing fine-grained location information. In addition to simplifying the features of the plot, this draws attention to the sharp drop in marriage licenses issued in the past few months compared to the previous years which wasn’t as apparent in previous Figure <a href="#fig:overall">1</a> or Figure <a href="#fig:recent">2</a> because of the separation of counts into different locations. This also draws attention to the recovery of counts in July and August of this year (which also was not as apparent in Figure <a href="#fig:overall">1</a> or Figure <a href="#fig:recent">2</a> for similar reasons).</p>
+<div id="location-aggregated-analysis" class="section level1">
+<h1>Location Aggregated Analysis</h1>
+<p>In Figure <a href="#fig:agg">3</a>, I plotted the aggregated counts of marriage licenses issued, i.e., the total number of licenses issued in the city of Toronto per month, losing fine-grained location information. In addition to simplifying the features of the plot, this draws attention to the sharp drop in marriage licenses issued in the past few months compared to the previous recorded years. This wasn’t as apparent in previous Figure <a href="#fig:overall">1</a> or Figure <a href="#fig:recent">2</a> because of the separation of counts into different locations. This also draws attention to the recovery of counts in July and August of this year (which also was not as apparent in Figure <a href="#fig:overall">1</a> or Figure <a href="#fig:recent">2</a> for similar reasons).</p>
 <div class="figure"><span id="fig:agg"></span>
-<img src="/post/2015-07-23-r-rmarkdown_files/figure-html/agg-1.png" alt="A plot of the number of marriage licenses issued aggregated per month over the past nine years." width="768" />
+<img src="/post/2015-07-23-r-rmarkdown_files/figure-html/agg-1.png" alt="A plot of the number of marriage licenses issued aggregated per month over the past nine years." width="672" />
 <p class="caption">
 Figure 3: A plot of the number of marriage licenses issued aggregated per month over the past nine years.
 </p>
 </div>
-<p>In Figure <a href="#fig:month"><strong>??</strong></a>, I plotted the average number of marriage licenses issued per month for the 9 years prior to 2020. reaching approximately 1400 marriage licenses issued per month in July and August. Compared to typical peaks in the previous nine years for July and August of around 2000+ marriage licenses issued per month, 30% fewer licenses were issued this year in July and August compared to the previous nine years. Although this is a significant decrease, the relative change in April (47 marriage licenses) and May (123) this year compared to previous years of</p>
-<p><img src="/post/2015-07-23-r-rmarkdown_files/figure-html/month-1.png" width="672" />
-<img src="/post/2015-07-23-r-rmarkdown_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p>In Figure <a href="#fig:month">4</a>, I plotted the average number of marriage licenses issued per month, excluding the data for 2020. reaching approximately 1400 marriage licenses issued per month in July and August. Compared to typical peaks in the previous nine years for July and August of around 2000+ marriage licenses issued per month, 30% fewer licenses were issued this year in July and August compared to the previous nine years. Although this is a significant decrease, the relative change in April (47 marriage licenses) and May (123) this year compared to previous years of Table <a href="#tab:tablem">1</a></p>
+<table>
+<caption>
+<span id="tab:tablem">Table 1: </span>The historic average number of marriage licenses issued per month.
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Month
+</th>
+<th style="text-align:right;">
+Average Marriage License Count
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+01
+</td>
+<td style="text-align:right;">
+776.67
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+02
+</td>
+<td style="text-align:right;">
+793.33
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+03
+</td>
+<td style="text-align:right;">
+1148.00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+04
+</td>
+<td style="text-align:right;">
+1340.56
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05
+</td>
+<td style="text-align:right;">
+1721.33
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+06
+</td>
+<td style="text-align:right;">
+1837.22
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+07
+</td>
+<td style="text-align:right;">
+2042.33
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+08
+</td>
+<td style="text-align:right;">
+1965.67
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+09
+</td>
+<td style="text-align:right;">
+1331.44
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+10
+</td>
+<td style="text-align:right;">
+1048.00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+11
+</td>
+<td style="text-align:right;">
+798.11
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:right;">
+765.78
+</td>
+</tr>
+</tbody>
+</table>
+<div class="figure"><span id="fig:month"></span>
+<img src="/post/2015-07-23-r-rmarkdown_files/figure-html/month-1.png" alt="A plot of the historic average number of marriage licenses issued per month." width="672" />
+<p class="caption">
+Figure 4: A plot of the historic average number of marriage licenses issued per month.
+</p>
+</div>
+<p><img src="/post/2015-07-23-r-rmarkdown_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
 </div>
 <div id="weaknesses" class="section level1">
 <h1>Weaknesses</h1>

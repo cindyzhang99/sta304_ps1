@@ -13,7 +13,7 @@ knitr::opts_chunk$set(collapse = TRUE)
 ```
 
 # Abstract
-From a cultural, social, and even legal viewpoint, getting married is widely considered one of the most significant events in a person's life. In this web post, we identify the seasonal and annual trends in the number of marriage licenses that are issued by the Toronto City Clerk's Office as published in the "Marriage Licence Statistics" dataset on Toronto's Open Data Portal. Most notably, thanks to public health policies and public adherence to those policies, the number of marriage licenses issued in the past few months are noticeably lower than usual. Our findings from exploring this dataset have provided a basic method of evaluating the effectiveness of social distancing policies and big picture-wise have pinpointed the cyclical trends of the number of marriage licenses being issued for curious couples and interested sociologists.
+From a cultural, social, and even legal viewpoint, getting married is widely considered one of the most significant events in a person's life. In this analysis, we identify the seasonal and annual trends in the number of marriage licenses that are issued by the City Clerk's Office of Toronto as published in the "Marriage Licence Statistics" dataset on Toronto's Open Data Portal. Most notably, thanks to public health policies and (initial) public adherence to those policies, the number of marriage licenses issued in the past few months are significantly lower than usual. Our findings from exploring this dataset have provided a basic method for evaluating the effectiveness of social distancing policies and big picture-wise have pinpointed cyclical trends in the issuance of marriage licenses that may be of interest to sociologists and curious couples.
 
 
 # Introduction
@@ -25,17 +25,17 @@ Third paragraph: Outline of the paper. Future work. Weaknesses.
 
 
 # Data Description 
-The "Marriage Licence Statistics" dataset contains 453 observations that document the number of marriage licenses issued per civic center per month in the city of Toronto. The dataset has only 4 features: 
+The "Marriage Licence Statistics" dataset contains 453 observations that document the number of marriage licenses issued per civic center per month in the city of Toronto. Starting in January of 2011, the dataset spans a period of almost ten years and was last updated on September 1st of this year with data for the month of August. The dataset has only four features: 
 
 * _id: an unique observation identifier
 * CIVIC_CENTRE: a two letter code for one of four civic centers in Toronto ("TO" being Toronto City Hall, "NY" being North York Civic Center, "ET" being Etobicoke Civic Center, and "SC" being Scarborough Civic Center)
-* MARRIAGE_LICENSES: a count of how many marriage licenses were issued in the given time period
+* MARRIAGE_LICENSES: a count of how many marriage licenses were issued in the given month
 * TIME_PERIOD: the year and month the observation was made
 
-In Figure \@ref(fig:overall), I plotted the full dataset to get a sense of what we are working with. (The code used to generate the figure can be found in the appendix.) In addition to plotting counts of marriage licenses issued against the month and year, I included the information about the locations where licenses were issued by using different colors for each civic center (namely red for "ET", green for "NY", blue for "SC", and purple for "TO").
+In Figure \@ref(fig:overall), I plotted the full dataset to get a sense of what we are working with. (The code used to generate this and subsequent figures can be found in the [Appendix](#appendix).) I included the information about the locations where licenses were issued by using different colors for each civic center (namely red for "ET", green for "NY", blue for "SC", and purple for "TO").
 
 
-```{r overall, fig.width=10.5, fig.height=3, fig.cap='A plot of the number of marriage licenses issued per month per civic center over the past nine years.', echo=FALSE, message=FALSE}
+```{r overall, fig.width=8, fig.height=4, fig.cap='A plot of the number of marriage licenses issued per month per civic center over the past nine years.', echo=FALSE, message=FALSE}
 library(tidyverse)
 library(opendatatoronto)
 
@@ -47,19 +47,26 @@ marriage_license_resources <- marriage_license_packages %>%
 marriage_license_statistics <- marriage_license_resources %>%
   opendatatoronto::get_resource()
 
-ggplot(data=marriage_license_statistics) +
-  geom_point(mapping = aes(x=TIME_PERIOD, y=MARRIAGE_LICENSES, color=CIVIC_CENTRE)) +
+agg_marriage_license = aggregate(x=marriage_license_statistics$MARRIAGE_LICENSES, 
+                                 by=list(marriage_license_statistics$TIME_PERIOD), 
+                                 FUN=sum)
+
+agg_marriage_license = rename(agg_marriage_license, TIME_PERIOD=Group.1, TOTAL_MARRIAGE_LICENSES=x)
+
+ggplot(data=marriage_license_statistics, mapping = aes(x=TIME_PERIOD, y=MARRIAGE_LICENSES, color=CIVIC_CENTRE)) +
+  geom_point() +
   theme(axis.text.x = element_text(angle = 90, vjust=0.5, hjust=1)) +
   xlab("Time Period") +
   ylab("Marriage License Counts") + 
-  labs(color="Civic Center Code")
+  labs(color="Civic Center") +
+  scale_x_discrete(limits=agg_marriage_license$TIME_PERIOD, breaks=agg_marriage_license$TIME_PERIOD[seq(1, length(agg_marriage_license$TIME_PERIOD), by=4)])
 ```
 
 # Data Discussion
 
-Although just an initial foray into the dataset, several patterns in Figure \@ref(fig:overall) immediately stand out. Perhaps most obvious is the cyclical nature of the counts of marriage licenses with numbers of issued licenses peaking for each civic center in the summer months and bottoming out in the winter months. The result of this seasonal behavior are what looks like consistent waves of counts, reaching their peak every July or August and reach their trough every December or January. Another interesting feature of the plot is that each civic center follows this cyclical pattern closely. Although Toronto City Hall appears to be the most popular issuer of marriage licenses with counts often double those of the other civic centers, all four centers exhibit the described wave-like pattern. 
+Although Figure \@ref(fig:overall) is just an initial foray into the dataset, several patterns immediately stand out. Perhaps most obvious is the cyclical nature of the counts of marriage licenses with the number for each civic center peaking in the summer months and bottoming out in the winter months. The result of this seasonal behavior is what looks like consistent waves of counts, reaching their peak every July or August and reaching their trough every November through February. Another interesting feature of the plot is that each civic center follows this pattern closely. Although Toronto City Hall appears to be the most popular issuer of marriage licenses with counts often double those of the other civic centers, all four centers exhibit the described wave-like pattern. 
 
-Lastly, there are clearly disruptions to the established patterns in the past few months with many fewer licenses being issued than expected during what should be a summer peak. In Figure \@ref(fig:recent), I've graphed data starting from only 2018 to highlight the anomalies in recent months. 
+Lastly, there are clearly disruptions in the past few months to the established patterns with many fewer licenses being issued than expected. In Figure \@ref(fig:recent), I've graphed only recent data starting from 2018 to provide a closer look at the anomalies of recent months while having access to two years of data to serve as a frame of reference for typical marriage license counts. 
 
 ```{r recent, fig.width=8, fig.height=4, fig.cap='A plot of the number of marriage licenses issued per month per civic center since 2018.', echo=FALSE}
 select_recent <- filter(marriage_license_statistics, TIME_PERIOD > "2017-12")
@@ -69,15 +76,15 @@ ggplot(data=select_recent) +
   theme(axis.text.x = element_text(angle = 90, vjust=0.5, hjust=1)) + 
   xlab("Time Period") +
   ylab("Marriage License Counts") + 
-  labs(color="Civic Center Code")
+  labs(color="Civic Center")
 ```
 
-In what typically would have been rising counts of marriage licenses issued, instead counts fell in March 2020 and continued falling in April 2020, where an all-time low (for this dataset) was hit: only 47 marriage licenses were issued that month. In subsequent months, the number of licenses rose (the rate at which will be discussed below). From the lack of data from some of the civic centers over the past few months, presumably they were closed and thus issued 0 marriage licenses. This further disrupted previously observed civic center trends with counts of licenses issued by North York Civic Center and Etobicoke Civic Center higher than they have ever been in the past 9 years because they were the only two locations open. 
+In what typically would have been rising counts of marriage licenses issued, instead counts fell in March 2020 and continued falling in April 2020, where an all-time low (for this dataset) was hit: only 47 marriage licenses were issued that month. In subsequent months, the number of licenses rose (the rate at which will be discussed below). From the lack of data from some of the civic centers over the past few months, presumably they were closed and thus issued zero marriage licenses. This further disrupted previously observed civic center trends with counts of licenses issued by North York Civic Center and Etobicoke Civic Center higher than they have ever been recorded in the dataset because they were the only two locations open. 
 
-# Additional Findings
-In Figure \@ref(fig:agg), I plotted the aggregated counts of marriage licenses issued, that is, the total number of licenses issued in the city of Toronto per month, losing fine-grained location information. In addition to simplifying the features of the plot, this draws attention to the sharp drop in marriage licenses issued in the past few months compared to the previous years which wasn't as apparent in previous Figure \@ref(fig:overall) or Figure \@ref(fig:recent) because of the separation of counts into different locations. This also draws attention to the recovery of counts in July and August of this year (which also was not as apparent in Figure \@ref(fig:overall) or Figure \@ref(fig:recent) for similar reasons).
+# Location Aggregated Analysis
+In Figure \@ref(fig:agg), I plotted the aggregated counts of marriage licenses issued, i.e., the total number of licenses issued in the city of Toronto per month, losing fine-grained location information. In addition to simplifying the features of the plot, this draws attention to the sharp drop in marriage licenses issued in the past few months compared to the previous recorded years. This wasn't as apparent in previous Figure \@ref(fig:overall) or Figure \@ref(fig:recent) because of the separation of counts into different locations. This also draws attention to the recovery of counts in July and August of this year (which also was not as apparent in Figure \@ref(fig:overall) or Figure \@ref(fig:recent) for similar reasons).
 
-```{r agg, fig.width=8, fig.height=3, fig.cap='A plot of the number of marriage licenses issued aggregated per month over the past nine years.', echo=FALSE}
+```{r agg, fig.width=7, fig.height=4, fig.cap='A plot of the number of marriage licenses issued aggregated per month over the past nine years.', echo=FALSE}
 agg_marriage_license = aggregate(x=marriage_license_statistics$MARRIAGE_LICENSES, 
                                  by=list(marriage_license_statistics$TIME_PERIOD), 
                                  FUN=sum)
@@ -88,13 +95,31 @@ ggplot(data=agg_marriage_license, aes(x=TIME_PERIOD, y=TOTAL_MARRIAGE_LICENSES, 
   geom_line() +
   theme(axis.text.x = element_text(angle = 90, vjust=0.5, hjust=1))+ 
   xlab("Time Period") +
-  ylab("Total Marriage License Counts")+
-  scale_x_discrete(limits=agg_marriage_license$TIME_PERIOD, breaks=agg_marriage_license$TIME_PERIOD[seq(1, length(agg_marriage_license$TIME_PERIOD), by=2)])
+  ylab("Total Marriage License Counts") +
+  scale_x_discrete(limits=agg_marriage_license$TIME_PERIOD, breaks=agg_marriage_license$TIME_PERIOD[seq(1, length(agg_marriage_license$TIME_PERIOD), by=4)])
 ```
  
-In Figure \@ref(fig:month), I plotted the average number of marriage licenses issued per month for the 9 years prior to 2020. reaching approximately 1400 marriage licenses issued per month in July and August. Compared to typical peaks in the previous nine years for July and August of around 2000+ marriage licenses issued per month, 30% fewer licenses were issued this year in July and August compared to the previous nine years. Although this is a significant decrease, the relative change in April (47 marriage licenses) and May (123) this year compared to previous years of 
+In Figure \@ref(fig:month), I plotted the average number of marriage licenses issued per month, excluding the data for 2020. reaching approximately 1400 marriage licenses issued per month in July and August. Compared to typical peaks in the previous nine years for July and August of around 2000+ marriage licenses issued per month, 30% fewer licenses were issued this year in July and August compared to the previous nine years. Although this is a significant decrease, the relative change in April (47 marriage licenses) and May (123) this year compared to previous years of Table \@ref(tab:tablem)
 
-```{r month, echo=FALSE}
+```{r tablem, echo=FALSE}
+agg_marriage_license$month <- substr(agg_marriage_license$TIME_PERIOD, 6, 7)
+agg_marriage_license$year <- substr(agg_marriage_license$TIME_PERIOD, 0, 4)
+
+historic_data <- filter(agg_marriage_license, TIME_PERIOD < "2020-01")
+agg_marriage_license_by_month = aggregate(x=historic_data$TOTAL_MARRIAGE_LICENSES, 
+                                 by=list(historic_data$month), 
+                                 FUN=mean)
+
+agg_marriage_license_by_month = rename(agg_marriage_license_by_month, month=Group.1, AVG_MARRIAGE_LICENSES=x)
+
+knitr::kable(agg_marriage_license_by_month, "html",
+             digits=2,
+             col.names=c("Month", "Average Marriage License Count"),
+             booktabs = TRUE,
+             caption = "The historic average number of marriage licenses issued per month.")
+```
+
+```{r month, fig.width=7, fig.height=4, fig.cap='A plot of the historic average number of marriage licenses issued per month.', echo=FALSE}
 agg_marriage_license$month <- substr(agg_marriage_license$TIME_PERIOD, 6, 7)
 agg_marriage_license$year <- substr(agg_marriage_license$TIME_PERIOD, 0, 4)
 
@@ -110,7 +135,7 @@ ggplot(data=agg_marriage_license_by_month, aes(x=month, y=AVG_MARRIAGE_LICENSES,
   xlab("Month") +
   ylab("Average Marriage License Counts per Month") 
 ```
-```{r, echo=FALSE}
+```{r, fig.width=7, fig.height=4, echo=FALSE}
 agg_marriage_license_by_year = aggregate(x=agg_marriage_license$TOTAL_MARRIAGE_LICENSES, 
                                           by=list(agg_marriage_license$year), 
                                           FUN=mean)
@@ -127,7 +152,7 @@ The data available is fairly straightforward. No strong statistical methods were
 # Next Steps
 This analysis of marriage license counts as a function of time can be further extended into the future as vaccines 
 
-# Appendix
+# Appendix {#appendix}
 The code used to produce this post can be found at https://github.com/cindyzhang99/sta304_ps1/blob/master/content/post/2015-07-23-r-rmarkdown.Rmd.
 
 ```{r}
