@@ -246,6 +246,21 @@ code {
   margin-left: 2px;
 }
 
+table {
+  width: 100%;
+  margin: auto; 
+  border-top: 1px solid #666; 
+  border-bottom: 1px solid #666; 
+}
+table thead th { border-bottom: 1px solid #ddd; text-align: right;}
+th, td { padding: 5px; }
+tr:nth-child(even) { background: #eee; }
+
+caption {
+  display: table-caption;
+  text-align: left;
+}
+
 @media (min-width: 600px) {
   .header {
     padding: 25px 0;
