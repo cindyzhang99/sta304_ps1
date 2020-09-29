@@ -62,7 +62,7 @@
 
   <article class="article">
     
-    <span class="article-duration">12 min read</span>
+    <span class="article-duration">14 min read</span>
     
 
     <h1 class="article-title">Consistent Marriage License Trends Disrupted By COVID Outbreak</h1>
@@ -78,20 +78,20 @@
 <p>Authored by Xinyi Zhang</p>
 <div id="abstract" class="section level1">
 <h1>Abstract</h1>
-<p>From a cultural, social, and even legal viewpoint, getting married is widely considered one of the most significant events in a person’s life. In this analysis, we identify the seasonal and annual trends in the number of marriage licenses that are issued by the City Clerk’s Office of Toronto as published in the “Marriage Licence Statistics” dataset on Toronto’s Open Data Portal. Most notably, thanks to public health policies and public adherence to those policies, the number of marriage licenses issued in the past few months are significantly lower than usual. Our findings from exploring this dataset have provided a basic method for evaluating the effectiveness of social distancing policies and big picture-wise have pinpointed cyclical trends in the issuance of marriage licenses that may be of interest to sociologists and curious couples.</p>
+<p>From a cultural, social, and even legal viewpoint, getting married is widely considered one of the most significant events in a person’s life. In this analysis, we identify the seasonal and annual trends in the number of marriage licenses that are issued by the City Clerk’s Office of Toronto as published in the “Marriage Licence Statistics” dataset on Toronto’s Open Data Portal (City Clerk’s Office, 2020). Most notably, thanks to public health policies and public adherence to those policies, the number of marriage licenses issued in the past few months are significantly lower than usual. Our findings from exploring this dataset have provided a basic method for evaluating the effectiveness of social distancing policies and big picture-wise have pinpointed cyclical trends in the issuance of marriage licenses that may be of interest to sociologists and curious couples.</p>
 </div>
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
-<p>First paragraph: General. Motivational. Majors specific finding.</p>
-<p>Second paragraph: More about what you did and found.</p>
-<p>Third paragraph: Outline of the paper. Future work. Weaknesses.</p>
+<p>When exploring the Marriage Licence Statistics dataset (City Clerk’s Office, 2020), I sought to answer two research questions: (1) “what are the annual and seasonal trends present in this dataset?” and (2) “to what extent have these trends been affected by the COVID-19 pandemic?”. While the answer to the first question is quite relevant to the field of sociology, the answer to the second question is a little more time sensitive. After an extensive exploration of the dataset, I can conclude that the COVID-19 pandemic has greatly disrupted previously consistent seasonal trends exhibited by marriage license counts as a function of time. In fact, the months that saw the most new COVID-19 cases in Toronto corresponded to the months that exhibited the greatest decreases in the number of marriage licenses issued compared historic averages for that time period. As cases are beginning to rise again, it stands to be seen if citizens will continue to self-regulate wedding celebrations or if the government will need to intervene.</p>
+<p>To draw such conclusions, I generated a variety of graphs from the dataset through different aggregation techniques and sought to identify significant patterns in each plot. From the plot of the full dataset, it was apparent that marriage license counts followed consistent seasonal trends with the distribution of the wavelike pattern reaching a peak in the summer months and bottoming out in the winter months. Aggregating the counts for each time point (removing separation of counts by civic centers) and averaging monthly counts by year served to further emphasize the significant disturbance to typical patterns. Lastly by graphing historic averages broken down by month, I was able to calculate the relative decrease in the number of marriage licenses issued this year compared to the previous nine years. While the number of marriage licenses issued fittingly decreased in accordance with the severity of the pandemic, as new cases rise every day, it’s possible the government may need to resort to stricter public health guidelines to prevent a second wave of the pandemic from hitting Toronto.</p>
+<p>As suggested by the previous paragraph, this paper features a description and discussion of the dataset followed by aggregated analyses (aggregating by location, year, and month in that order). Next steps to augment this data analysis involves obtaining additional data that serves the purpose of extending and providing context to the dataset we currently have access to. This would help in resolving the main weakness of the dataset in that it is limited in the scope of information it provides.</p>
 </div>
 <div id="description" class="section level1">
 <h1>Data Description</h1>
-<p>The “Marriage Licence Statistics” dataset contains 453 observations that document the number of marriage licenses issued per civic center per month in the city of Toronto. Starting in January of 2011, the dataset spans a period of almost ten years and was last updated on September 1st of this year with data for the month of August. The dataset has only four features:</p>
+<p>The “Marriage Licence Statistics” dataset (City Clerk’s Office, 2020) contains 453 observations that document the number of marriage licenses issued per civic center per month in the city of Toronto. Starting in January of 2011, the dataset spans a period of almost ten years and was last updated on September 1st of this year with data for the month of August. The dataset has only four features:</p>
 <ul>
 <li>_id: an unique observation identifier</li>
-<li>CIVIC_CENTRE: a two letter code for one of four civic centers in Toronto (“TO” being Toronto City Hall, “NY” being North York Civic Center, “ET” being Etobicoke Civic Center, and “SC” being Scarborough Civic Center)</li>
+<li>CIVIC_CENTRE: a two letter code for one of four civic centers in Toronto (“TO” being Toronto City Hall, “NY” being North York Civic Center, “ET” being Etobicoke Civic Center, and “SC” being Scarborough Civic Center) (City of Toronto, 2020)</li>
 <li>MARRIAGE_LICENSES: a count of how many marriage licenses were issued in the given month</li>
 <li>TIME_PERIOD: the year and month the observation was made</li>
 </ul>
@@ -137,7 +137,7 @@ Figure 4: A plot of the average monthly marriage license counts for each year in
 </p>
 </div>
 <p>To describe the plot, after a small dip in 2013, counts steadily rose annually by 1-4% until 2018 where it plateaued at around 1355. This plateau continued into 2019 after which it subsequently dropped to an average count of 768 monthly counts in 2020. We can only speculate but it’s possible the final average for 2020 will be even lower than what we have currently calculated because the usual low counts for winter months will be compounded by social distancing policies and rising COVID-19 cases.</p>
-<p>While marriage rates have been reported to be falling in the past few decades in OECD countries, Figure <a href="#fig:year">4</a> tells another story. We need additional data (for example marriage license counts for the past few decades) to determine if the steady increase in marriage licenses obtained from 2013 to 2018 is just an blip in the bigger picture of falling marriage rates. Alternatively, if Toronto is truly bucking the trend, we also need additional data to identify the possible reasons for an increase in marriage license counts (such as population growth data, the rise of wedding posts on social media, changes in the portrayal of marriage in popular media, etc.).</p>
+<p>While marriage rates have been reported to be falling in the past few decades in OECD countries (OECD, 2019), Figure <a href="#fig:year">4</a> tells another story. We need additional data (for example marriage license counts for the past few decades) to determine if the steady increase in marriage licenses obtained from 2013 to 2018 is just an blip in the bigger picture of falling marriage rates. Alternatively, if Toronto is truly bucking the trend, we also need additional data to identify the possible reasons for an increase in marriage license counts (such as population growth data, the rise of wedding posts on social media, changes in the portrayal of marriage in popular media, etc.).</p>
 </div>
 <div id="monthly-aggregated-analysis" class="section level2">
 <h2>Monthly Aggregated Analysis</h2>
@@ -149,7 +149,7 @@ Figure 5: A plot of the historic average number of marriage licenses issued per 
 </p>
 </div>
 <table>
-<caption><span id="tab:tablem">Table 1: </span>Historic marriage license averages.</caption>
+<caption><span id="tab:tablem">Table 1: </span>Historic averages by month.</caption>
 <thead>
 <tr class="header">
 <th align="left">Month</th>
@@ -208,7 +208,7 @@ Figure 5: A plot of the historic average number of marriage licenses issued per 
 </tbody>
 </table>
 <p>These calculated historic averages can help us better evaluate the relative change in the number of marriage licenses issued this year compared to past years. As mentioned in <a href="#discussion">Dataset Discussion</a>, the deviation from previously observed seasonal trends began during March 2020. While all four locations were still issuing licenses, only 616 licenses were issued that month compared to a historic average of 1148 licenses issued for March (a 43% decrease). Then for April of this year, only 47 marriage licenses were issued compared to a historic average of 1341 licenses issued in April (a 96% decrease). Following this method of comparison, the subsequent months of May, June, July, and August saw a 93%, 65%, 27%, and a 28% decrease in marriage licenses issued, respectively.</p>
-<p>To provide some context to the number of marriage licenses being issued in the past few months, I’ve also plotted new COVID-19 cases per month in Toronto in Figure <a href="#fig:covid">6</a> using the “COVID-19 Cases in Toronto” dataset from the Open Data Portal. The peak in cases in April and May directly corresponds to the significant decrease in the number of marriage licenses issued in April and May (90%+ decreases compared to historic averages for these two months). Then as the number of new cases dropped in June and July and plateaued in August, the number of marriage licenses issued increased to the point where July and August saw only a 27% and 28% decrease compared to historic averages.</p>
+<p>To provide some context to the number of marriage licenses being issued in the past few months, I’ve also plotted new COVID-19 cases per month in Toronto in Figure <a href="#fig:covid">6</a> using the “COVID-19 Cases in Toronto” dataset from the Open Data Portal (Toronto Public Health, 2020). The peak in cases in April and May directly corresponds to the significant decrease in the number of marriage licenses issued in April and May (90%+ decreases compared to historic averages for these two months). Then as the number of new cases dropped in June and July and plateaued in August, the number of marriage licenses issued increased to the point where July and August saw only a 27% and 28% decrease compared to historic averages.</p>
 <p>This indicates that as the number of cases rapidly rose in April and May, couples strictly adhered to social distancing guidelines and likely postponed wedding celebrations (and thus postponed obtaining their marriage licenses). A 90%+ decrease in marriage licenses issued in these two months is certainly a public health success and most likely contributed to “flattening the curve” in the coming months. However as cases dropped and the world adjusted to “a new normal”, we saw increases to the number of marriage licenses issued. This could be due to a variety of factors such as learning flexibility in holding wedding celebrations (holding them online, having smaller gatherings, forgoing celebrations all together, etc.) or taking social distancing guidelines less seriously (as cases dropped and as time passed). As the number of daily new cases continues to rise this fall, couples may take it upon themselves to find innovative but safe ways to get married or the government may implement more severe public health policies if they find people are disregarding guidelines.</p>
 <div class="figure"><span id="fig:covid"></span>
 <img src="/post/2015-07-23-r-rmarkdown_files/figure-html/covid-1.png" alt="A plot of the total number of new COVID-19 cases in Toronto per month." width="672" />
@@ -221,7 +221,7 @@ Figure 6: A plot of the total number of new COVID-19 cases in Toronto per month.
 <div id="weaknesses" class="section level1">
 <h1>Weaknesses</h1>
 <p>Although the dataset is complete, highly accurate, and regularly updated, it is limited in terms of the comprehensiveness and complexity of available data. As touched upon briefly earlier, evaluating the effectiveness of public health policies would be easier with additional information like if and when a wedding was held, how many guests were in attendance in person, and so forth. Without that data, we are left to speculate about the motivations behind the rise in marriage licenses issued in July and August. Given the broad range of reasoning discussed above, it’s difficult to determine how well couples are adhering to social distancing policies after successfully decreasing marriage license counts in April and May.</p>
-<p>Additionally, although we have pinpointed seasonal trends, to reconcile the increase in marriage licenses issued from 2013-2018 with the bigger picture trend of falling marriage rates in OECD countries, we require decades of data.</p>
+<p>Additionally, although we have pinpointed seasonal trends, to reconcile the increase in marriage licenses issued from 2013-2018 with the bigger picture trend of falling marriage rates in OECD countries (OECD, 2019), we require decades of data.</p>
 <p>Lastly, I did my best to draw conclusions from the graphs generated from this dataset but didn’t apply any rigorous statistical methods to analyze the data beyond describing trends, aggregating counts, and making comparisons. As I gain greater experience in data analysis, I hope to be able to draw more concrete conclusions in future explorations of data.</p>
 </div>
 <div id="next-steps" class="section level1">
@@ -355,6 +355,10 @@ ggplot(data=agg_COVID_cases_by_month, aes(x=month, y=TOTAL_COVID_CASES, group = 
 <p>Yihui Xie (2020). blogdown: Create Blogs and Websites with R Markdown. R package version 0.20.</p>
 <p>Wickham et al., (2019). Welcome to the tidyverse. Journal of Open Source Software, 4(43), 1686, <a href="https://doi.org/10.21105/joss.01686" class="uri">https://doi.org/10.21105/joss.01686</a></p>
 <p>Sharla Gelfand (2020). opendatatoronto: Access the City of Toronto Open Data Portal. R package version 0.1.3. <a href="https://CRAN.R-project.org/package=opendatatoronto" class="uri">https://CRAN.R-project.org/package=opendatatoronto</a></p>
+<p>City Clerk’s Office (2020). “Open Data Dataset.” City of Toronto Open Data Portal. City of Toronto. <a href="https://open.toronto.ca/dataset/marriage-licence-statistics/" class="uri">https://open.toronto.ca/dataset/marriage-licence-statistics/</a>.</p>
+<p>City of Toronto (2020). “Step 1: Apply for a Marriage Licence.” City of Toronto. <a href="https://www.toronto.ca/services-payments/venues-facilities-bookings/getting-married/step-1-applying-for-a-marriage-licence/" class="uri">https://www.toronto.ca/services-payments/venues-facilities-bookings/getting-married/step-1-applying-for-a-marriage-licence/</a>.</p>
+<p>OECD - Social Policy Division (2019). “SF3.1: Marriage and Divorce Rates.” OECD Family Database. OECD. <a href="http://www.oecd.org/els/family/SF_3_1_Marriage_and_divorce_rates.pdf" class="uri">http://www.oecd.org/els/family/SF_3_1_Marriage_and_divorce_rates.pdf</a>.</p>
+<p>Toronto Public Health (2020). “COVID-19 Cases in Toronto.” City of Toronto Open Data Portal. City of Toronto. <a href="https://open.toronto.ca/dataset/covid-19-cases-in-toronto/" class="uri">https://open.toronto.ca/dataset/covid-19-cases-in-toronto/</a>.</p>
 </div>
 
     </div>
