@@ -81,8 +81,10 @@ ggplot(data=select_recent) +
 
 In what usually would have been rising counts of marriage licenses issued, instead counts fell in March 2020 and continued falling in April 2020, where an all-time low (for this dataset) was hit: only 47 marriage licenses were issued that month. In subsequent months, the number of licenses rose each month (the rate at which will be discussed below). From the lack of data from some of the civic centers over the past few months, presumably they were closed and thus issued zero marriage licenses. This also disrupted previously observed civic center trends with counts of licenses issued by North York Civic Center and Etobicoke Civic Center higher than they have ever previously been recorded in the dataset because they were the only two locations open. 
 
-# Location Aggregated Analysis
-In Figure \@ref(fig:agg), I plotted the aggregated counts of marriage licenses issued, i.e., the total number of licenses issued in the city of Toronto per month, losing fine-grained location information. In addition to simplifying the features of the plot, this draws attention to the sharp drop in marriage licenses issued in the past few months compared to the previous recorded years. This wasn't as apparent in previous Figures \@ref(fig:overall) or \@ref(fig:recent) because of the separation of counts into different locations. This also paints a more accurate picture of the recovery of counts in July and August (where again Figures \@ref(fig:overall) and \@ref(fig:recent) made it difficult to evaluate the scale of the recovery because of the separation of counts).
+# Aggregated Analyses
+
+## Location Aggregated Analysis
+In Figure \@ref(fig:agg), I plotted the location aggregated counts of marriage licenses issued, i.e., the total number of licenses issued in the city of Toronto per month, losing fine-grained location information. In addition to simplifying the features of the plot, this draws attention to the sharp drop in marriage licenses issued in the past few months compared to the previous recorded years. This wasn't as apparent in previous Figures \@ref(fig:overall) or \@ref(fig:recent) because of the separation of counts into different locations. This also paints a more accurate picture of the recovery of counts in July and August (where again Figures \@ref(fig:overall) and \@ref(fig:recent) made it difficult to evaluate the scale of the recovery because of the separation of counts).
 
 ```{r agg, fig.width=7, fig.height=4, fig.cap='A plot of the number of marriage licenses issued aggregated per month over the past ten years.', echo=FALSE}
 agg_marriage_license = aggregate(x=marriage_license_statistics$MARRIAGE_LICENSES, 
@@ -98,6 +100,8 @@ ggplot(data=agg_marriage_license, aes(x=TIME_PERIOD, y=TOTAL_MARRIAGE_LICENSES, 
   ylab("Total Marriage License Counts") +
   scale_x_discrete(limits=agg_marriage_license$TIME_PERIOD, breaks=agg_marriage_license$TIME_PERIOD[seq(1, length(agg_marriage_license$TIME_PERIOD), by=4)])
 ```
+
+## Yearly Aggregated Analysis
 
 In Figure \@ref(fig:year), I calculated the average number of marriage licenses issued monthly in each of the past 10 years. This is an averaged monthly count for each year instead of a total sum of counts because we'd like to compare 2020 to historical data but we're missing values for the last four months of this year (September onward). 
 
@@ -121,7 +125,9 @@ To describe the plot, after a small dip in 2013, counts steadily rose annually b
 
 While marriage rates have been reported to be falling in the past few decades in OECD countries, Figure \@ref(fig:year) tells another story. We need additional data (for example marriage license counts for the past few decades) to determine if the steady increase in marriage licenses obtained from 2013 to 2018 is just an blip in the bigger picture of falling marriage rates. Alternatively, if Toronto is truly bucking the trend, we also need additional data to identify the possible reasons for an increase in marriage license counts (such as population growth data, the rise of wedding posts on social media, changes in the portrayal of marriage in popular media, etc.).
 
-In Figure \@ref(fig:month), I plotted the average number of marriage licenses issued per month, excluding the data for 2020. Furthermore in Table \@ref(tab:tablem), I displayed the averages used to generate Figure \@ref(fig:month). The high average counts for July and August and low average counts for November through February align well with what we have already observed when graphing the full dataset.
+## Monthly Aggregated Analysis
+
+In Figure \@ref(fig:month), I plotted the average number of marriage licenses issued per month, excluding the data for 2020. Furthermore in Table \@ref(tab:tablem), I displayed the averages used to generate Figure \@ref(fig:month). The high average counts for July and August and the low average counts for November through February align well with what we have already observed when graphing the full dataset.
 
 
 ```{r month, fig.width=7, fig.height=4, fig.cap='A plot of the historic average number of marriage licenses issued per month.', echo=FALSE}
@@ -156,26 +162,175 @@ knitr::kable(agg_marriage_license_by_month,
              caption="Historic marriage license averages.")
 ```
 
-These calculated historic averages can help us more closely evaluate the relative change in the number of marriage licenses issued this year compared to past years. As mentioned in [Dataset Discussion](#discussion), the deviation from previously observed seasonal trends began during March 2020. While all four locations were still issuing licenses, only 616 licenses were issued in March 2020 compared to an average of 1148 being issued in March over the past nine years (a 43% decrease compared to the historic average). Then for April of this year, only 47 marriage licenses were issued compared to a historic average of 1341 licenses issued in April (a 96% decrease). Following this method of comparison, the subsequent months of May, June, July, and August saw a 93%, 65%, 27%, and a 28% decrease in marriage licenses issued, respectively.
+These calculated historic averages can help us better evaluate the relative change in the number of marriage licenses issued this year compared to past years. As mentioned in [Dataset Discussion](#discussion), the deviation from previously observed seasonal trends began during March 2020. While all four locations were still issuing licenses, only 616 licenses were issued that month compared to a historic average of 1148 licenses issued for March (a 43% decrease). Then for April of this year, only 47 marriage licenses were issued compared to a historic average of 1341 licenses issued in April (a 96% decrease). Following this method of comparison, the subsequent months of May, June, July, and August saw a 93%, 65%, 27%, and a 28% decrease in marriage licenses issued, respectively.
 
-To provide some context, new COVID-19 cases in Ontario peaked at the end of April (634) and steadily decreased into early August (33). The significant decrease in counts of marriage licenses issued in April and May coincided with the peak of new COVID-19 cases in Ontario
+To provide some context to the number of marriage licenses being issued in the past few months, I've also plotted new COVID-19 cases per month in Toronto in Figure \@ref(fig:covid) using the "COVID-19 Cases in Toronto" dataset from the Open Data Portal. The peak in cases in April and May directly corresponds to the significant decrease in the number of marriage licenses issued in April and May (90%+ decreases compared to historic averages for these two months). Then as the number of new cases dropped in June and July and plateaued in August, the number of marriage licenses issued increased to the point where July and August saw only a 27% and 28% decrease compared to historic averages.
 
+This indicates that as the number of cases rapidly rose in April and May, couples strictly adhered to social distancing guidelines and likely postponed wedding celebrations (and thus postponed obtaining their marriage licenses). A 90%+ decrease in marriage licenses issued in these two months is certainly a public health success and most likely contributed to "flattening the curve" in the coming months. However as cases dropped and the world adjusted to "a new normal", we saw increases to the number of marriage licenses issued. This could be due to a variety of factors such as learning flexibility in holding wedding celebrations (holding them online, having smaller gatherings, forgoing celebrations all together, etc.) or taking social distancing guidelines less seriously (as cases dropped and as time passed). As the number of daily new cases continues to rise this fall, couples may take it upon themselves to find innovative but safe ways to get married or the government may implement more severe public health policies if they find people are disregarding guidelines.
 
-# Weaknesses
-The data available is fairly straightforward. No strong statistical methods were applied. Further
+```{r covid, fig.width=7, fig.height=4, fig.cap='A plot of the total number of new COVID-19 cases in Toronto per month.', echo=FALSE}
+COVID_cases_packages <- opendatatoronto::search_packages("COVID")
+
+COVID_cases_resources <- COVID_cases_packages %>% 
+  opendatatoronto::list_package_resources()
+
+COVID_cases_statistics <- COVID_cases_resources %>%
+  opendatatoronto::get_resource()
+
+COVID_cases_statistics$month <- substr(COVID_cases_statistics$"Episode Date", 6, 7)
+
+agg_COVID_cases_by_month = aggregate(x=COVID_cases_statistics$Assigned_ID, 
+                                          by=list(COVID_cases_statistics$month), 
+                                          FUN=length)
+
+agg_COVID_cases_by_month = rename(agg_COVID_cases_by_month, month=Group.1, TOTAL_COVID_CASES=x)
+
+ggplot(data=agg_COVID_cases_by_month, aes(x=month, y=TOTAL_COVID_CASES, group = 1)) +
+  geom_line()+ 
+  xlab("Month") +
+  ylab("New COVID-19 Cases") 
+```
+
+# Weaknesses {#weaknesses}
+Although the dataset is complete, highly accurate, and regularly updated, it is limited in terms of the comprehensiveness and complexity of available data. As touched upon briefly earlier, evaluating the effectiveness of public health policies would be easier with additional information like if and when a wedding was held, how many guests were in attendance in person, and so forth. Without that data, we are left to speculate about the motivations behind the rise in marriage licenses issued in July and August. Given the broad range of reasoning discussed above, it's difficult to determine how well couples are adhering to social distancing policies after successfully decreasing marriage license counts in April and May.
+
+Additionally, although we have pinpointed seasonal trends, to reconcile the increase in marriage licenses issued from 2013-2018 with the bigger picture trend of falling marriage rates in OECD countries, we require decades of data. 
+
+Lastly, I did my best to draw conclusions from the graphs generated from this dataset but didn't apply any rigorous statistical methods to analyze the data beyond describing trends, aggregating counts, and making comparisons. As I gain greater experience in data analysis, I hope to be able to draw more concrete conclusions in future explorations of data.
 
 # Next Steps
-This analysis of marriage license counts as a function of time can be further extended into the future as vaccines 
+The next step for this project is to obtain additional data and information that would better inform the conclusions and inferences I made here. This includes population growth data which I briefly searched for (but found that official sources such as census data are available for only every five years). Since marriage licenses are a part of the public record perhaps the useful missing information discussed in [Weaknesses](#weaknesses) could be requested from the government. Finally, some of the most interesting data about the effects of the pandemic on marriage license counts is just a matter of waiting for the end of the pandemic and for the data to be published.
 
 # Appendix {#appendix}
 The code used to produce this post can be found at https://github.com/cindyzhang99/sta304_ps1/blob/master/content/post/2015-07-23-r-rmarkdown.Rmd.
 
-```{r}
+```{r eval=FALSE}
+# figure 1
+library(tidyverse)
+library(opendatatoronto)
 
+marriage_license_packages <- opendatatoronto::search_packages("Marriage Licence Statistics")
+
+marriage_license_resources <- marriage_license_packages %>% 
+  opendatatoronto::list_package_resources()
+
+marriage_license_statistics <- marriage_license_resources %>%
+  opendatatoronto::get_resource()
+
+agg_marriage_license = aggregate(x=marriage_license_statistics$MARRIAGE_LICENSES, 
+                                 by=list(marriage_license_statistics$TIME_PERIOD), 
+                                 FUN=sum)
+
+agg_marriage_license = rename(agg_marriage_license, TIME_PERIOD=Group.1, TOTAL_MARRIAGE_LICENSES=x)
+
+ggplot(data=marriage_license_statistics, mapping = aes(x=TIME_PERIOD, y=MARRIAGE_LICENSES, color=CIVIC_CENTRE)) +
+  geom_point() +
+  theme(axis.text.x = element_text(angle = 90, vjust=0.5, hjust=1)) +
+  xlab("Time Period") +
+  ylab("Marriage License Counts") + 
+  labs(color="Civic Center") +
+  scale_x_discrete(limits=agg_marriage_license$TIME_PERIOD, breaks=agg_marriage_license$TIME_PERIOD[seq(1, length(agg_marriage_license$TIME_PERIOD), by=4)])
+
+# figure 2
+select_recent <- filter(marriage_license_statistics, TIME_PERIOD > "2017-12")
+
+ggplot(data=select_recent) +
+  geom_point(mapping = aes(x=TIME_PERIOD, y=MARRIAGE_LICENSES, color=CIVIC_CENTRE)) +
+  theme(axis.text.x = element_text(angle = 90, vjust=0.5, hjust=1)) + 
+  xlab("Time Period") +
+  ylab("Marriage License Counts") + 
+  labs(color="Civic Center")
+
+# figure 3
+agg_marriage_license = aggregate(x=marriage_license_statistics$MARRIAGE_LICENSES, 
+                                 by=list(marriage_license_statistics$TIME_PERIOD), 
+                                 FUN=sum)
+
+agg_marriage_license = rename(agg_marriage_license, TIME_PERIOD=Group.1, TOTAL_MARRIAGE_LICENSES=x)
+
+ggplot(data=agg_marriage_license, aes(x=TIME_PERIOD, y=TOTAL_MARRIAGE_LICENSES, group = 1)) +
+  geom_line() +
+  theme(axis.text.x = element_text(angle = 90, vjust=0.5, hjust=1))+ 
+  xlab("Time Period") +
+  ylab("Total Marriage License Counts") +
+  scale_x_discrete(limits=agg_marriage_license$TIME_PERIOD, breaks=agg_marriage_license$TIME_PERIOD[seq(1, length(agg_marriage_license$TIME_PERIOD), by=4)])
+
+# figure 4
+agg_marriage_license$month <- substr(agg_marriage_license$TIME_PERIOD, 6, 7)
+agg_marriage_license$year <- substr(agg_marriage_license$TIME_PERIOD, 0, 4)
+
+agg_marriage_license_by_year = aggregate(x=agg_marriage_license$TOTAL_MARRIAGE_LICENSES, 
+                                          by=list(agg_marriage_license$year), 
+                                          FUN=mean)
+
+agg_marriage_license_by_year = rename(agg_marriage_license_by_year, year=Group.1, AVG_MARRIAGE_LICENSES=x)
+
+ggplot(data=agg_marriage_license_by_year, aes(x=year, y=AVG_MARRIAGE_LICENSES, group = 1)) +
+  geom_line() +
+  xlab("Year") +
+  ylab("Average Monthly Marriage License Counts")
+
+# figure 5
+historic_data <- filter(agg_marriage_license, TIME_PERIOD < "2020-01")
+agg_marriage_license_by_month = aggregate(x=historic_data$TOTAL_MARRIAGE_LICENSES, 
+                                 by=list(historic_data$month), 
+                                 FUN=mean)
+
+agg_marriage_license_by_month = rename(agg_marriage_license_by_month, month=Group.1, AVG_MARRIAGE_LICENSES=x)
+
+ggplot(data=agg_marriage_license_by_month, aes(x=month, y=AVG_MARRIAGE_LICENSES, group = 1)) +
+  geom_line()+ 
+  xlab("Month") +
+  ylab("Average Marriage License Counts per Month") 
+
+# table 1
+agg_marriage_license$month <- substr(agg_marriage_license$TIME_PERIOD, 6, 7)
+agg_marriage_license$year <- substr(agg_marriage_license$TIME_PERIOD, 0, 4)
+
+historic_data <- filter(agg_marriage_license, TIME_PERIOD < "2020-01")
+agg_marriage_license_by_month = aggregate(x=historic_data$TOTAL_MARRIAGE_LICENSES, 
+                                 by=list(historic_data$month), 
+                                 FUN=mean)
+
+agg_marriage_license_by_month = rename(agg_marriage_license_by_month, month=Group.1, AVG_MARRIAGE_LICENSES=x)
+
+knitr::kable(agg_marriage_license_by_month,
+             digits=2,
+             col.names=c("Month", "|| Average Marriage License Counts"),
+             booktabs=TRUE,
+             caption="Historic marriage license averages.")
+
+# figure 6
+COVID_cases_packages <- opendatatoronto::search_packages("COVID")
+
+COVID_cases_resources <- COVID_cases_packages %>% 
+  opendatatoronto::list_package_resources()
+
+COVID_cases_statistics <- COVID_cases_resources %>%
+  opendatatoronto::get_resource()
+
+COVID_cases_statistics$month <- substr(COVID_cases_statistics$"Episode Date", 6, 7)
+
+agg_COVID_cases_by_month = aggregate(x=COVID_cases_statistics$Assigned_ID, 
+                                          by=list(COVID_cases_statistics$month), 
+                                          FUN=length)
+
+agg_COVID_cases_by_month = rename(agg_COVID_cases_by_month, month=Group.1, TOTAL_COVID_CASES=x)
+
+ggplot(data=agg_COVID_cases_by_month, aes(x=month, y=TOTAL_COVID_CASES, group = 1)) +
+  geom_line()+ 
+  xlab("Month") +
+  ylab("New COVID-19 Cases") 
 ```
 
 
 # References
-* Wickham et al., (2019). Welcome to the tidyverse. Journal of Open Source Software, 4(43), 1686, https://doi.org/10.21105/joss.01686
+R Core Team (2020). R: A language and environment for statistical computing. R Foundation for Statistical Computing, Vienna, Austria. URL https://www.R-project.org/.
+
+Yihui Xie and J.J. Allaire and Garrett Grolemund (2018). R Markdown: The Definitive Guide. Chapman and Hall/CRC. ISBN 9781138359338. URL https://bookdown.org/yihui/rmarkdown.
+
+Yihui Xie (2020). blogdown: Create Blogs and Websites with R Markdown. R package version 0.20.
+
+Wickham et al., (2019). Welcome to the tidyverse. Journal of Open Source Software, 4(43), 1686, https://doi.org/10.21105/joss.01686
   
-* Sharla Gelfand (2020). opendatatoronto: Access the City of Toronto Open Data Portal. R package version 0.1.3. https://CRAN.R-project.org/package=opendatatoronto
+Sharla Gelfand (2020). opendatatoronto: Access the City of Toronto Open Data Portal. R package version 0.1.3. https://CRAN.R-project.org/package=opendatatoronto

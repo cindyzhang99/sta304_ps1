@@ -71,3 +71,7 @@ agg_marriage_license_by_year = rename(agg_marriage_license_by_year, year=Group.1
 
 ggplot(data=agg_marriage_license_by_year, aes(x=year, y=AVG_MARRIAGE_LICENSES, group = 1)) +
   geom_line()
+
+
+
+
